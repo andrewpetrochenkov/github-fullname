@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+{ set +x; } 2>/dev/null
+
+usage() {
+    cat <<EOF 1>&2
+usage: $(basename $0) path
+EOF
+    [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+}
+
+[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+
+[[ $# != 1 ]] || [[ -z "$1" ]] && usage
+
+# git@host:owner/repo.git           SSH
+# https://[username:password@]host/owner/repo.git       HTTPS
+
+# host:
+# github.com                        default
+# username.github.com               multiple accounts ssh
+
+# .git/config
+# [remote "name"]
+#    url = git@host:owner/repo.py.git
+
+IFS=
+cd "$1" || exit
+! [ -e .git ] && echo "SKIP ($PWD): .git NOT EXISTS" 1>&2 && exit 1
+! [ -e .git/config ] && echo "SKIP ($PWD): .git/config NOT EXISTS" 1>&2 && exit 1
+
+remote="$(git remote -v)" || exit
+[[ -z "$remote" ]] && echo "SKIP ($PWD): git remote EMPTY" 1>&2 && exit 1
+
+urls="$(echo "$remote" | awk '{print $2}' | uniq)"
+[[ -z "$urls" ]] && echo "ERROR ($PWD): invalid remote:\n $urls" 1>&2 && exit 1
+
+[[ -n "$urls" ]] && while IFS= read url; do
+    [[ "$url" == "git@"* ]] && {
+        user_host="$(echo "$url" | awk -F ":" '{print $1}')"
+        [[ -z "$user_host" ]] && echo "ERROR ($PWD): invalid url: $url" 1>&2 && exit 1
+        host="$(echo "$user_host" | awk -F "@" '{print $2}')"
+        [[ "$host" == *"github"* ]] && {
+            echo "$url" | awk -F ":" '{print $2}' | sed 's/....$//'; exit
+        }
+    }
+    [[ "$url" == "https://"* ]] && {
+        domain="$(echo "$url" | awk -F "/" '{print $3}')"
+        [[ -z "$domain" ]] && echo "ERROR ($PWD): invalid url: $url" 1>&2 && exit 1
+        [[ "$domain" == *"github"* ]] && {
+            echo "$url" | awk -F "/" '{print $4"/"$5}' | sed 's/....$//'; exit
+        }
+    }
+done <<< "$urls"
+echo "SKIP ($PWD): github remote not found" 1>&2 && exit 1

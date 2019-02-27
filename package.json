@@ -1,0 +1,13 @@
+{
+  "name": "github-fullname",
+  "version": "2019.02.27",
+  "description": "get repo github username",
+  "keywords": [
+    "github"
+  ],
+  "homepage": "https://github.com/looking-for-a-job/github-fullname",
+  "license": "Unlicense",
+  "bin": {
+    "github-fullname": "./scripts/github-fullname"
+  }
+}
