@@ -1,9 +1,13 @@
+<!--
+https://pypi.org/project/readme-generator/
+-->
+
 [![](https://img.shields.io/badge/OS-Unix-blue.svg?longCache=True)]()
 [![](https://img.shields.io/pypi/v/github-fullname.svg?maxAge=3600)](https://pypi.org/project/github-fullname/)
 [![](https://img.shields.io/npm/v/github-fullname.svg?maxAge=3600)](https://www.npmjs.com/package/github-fullname)
 [![Travis](https://api.travis-ci.org/looking-for-a-job/github-fullname.svg?branch=master)](https://travis-ci.org/looking-for-a-job/github-fullname/)
 
-#### Install
+#### Installation
 ```bash
 $ [sudo] npm i -g github-fullname
 ```
@@ -49,4 +53,6 @@ delete github orphaned repos:
 $ python -m github_repos | grep -v "$(find ~/git -maxdepth 1 -exec github-fullname {} \; 2> /dev/null)" | xargs python -m github_delete
 ```
 
-<p align="center"><a href="https://pypi.org/project/readme-md/">readme-md</a> - README.md generator</p>
+<p align="center">
+    <a href="https://pypi.org/project/readme-generator/">readme-generator</a>
+</p>
