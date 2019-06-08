@@ -1,5 +1,6 @@
 <!--
 https://pypi.org/project/readme-generator/
+https://pypi.org/project/python-readme-generator/
 -->
 
 [![](https://img.shields.io/badge/OS-Unix-blue.svg?longCache=True)]()
@@ -15,7 +16,7 @@ $ [sudo] npm i -g github-fullname
 $ [sudo] pip install github-fullname
 ```
 
-#### CLI
+#### Scripts usage
 ```bash
 usage: github-fullname path
 ```
@@ -54,5 +55,5 @@ $ python -m github_repos | grep -v "$(find ~/git -maxdepth 1 -exec github-fullna
 ```
 
 <p align="center">
-    <a href="https://pypi.org/project/readme-generator/">readme-generator</a>
+    <a href="https://pypi.org/project/python-readme-generator/">python-readme-generator</a>
 </p>
